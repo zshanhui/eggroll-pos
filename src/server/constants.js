@@ -6,7 +6,7 @@ export default {
     PENNSYVANIA: .0622,
     MALAYSIA: .1,
   },
-  LAUNCHED_CITIES: ['Singapore', 'Pittsburgh'],
+  LAUNCHED_CITIES: ['Singapore', 'Pittsburgh, PA', 'Austin, TX'],
   CUSTOMER_SERVICE_EMAIL: 'adrienshen.dev@gmail.com',
   MAX_SHOPS_RETURN_CUSTOMERS: 5,
   MAX_ORDERS_MERCHANTS: 10,

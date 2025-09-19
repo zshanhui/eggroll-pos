@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import {Grid, Button, ButtonGroup, ButtonToolbar, Card, Table, Container} from 'react-bootstrap';
-import { getTimeUntilPickup } from '../../../shared/orders';
 import {getOrders, updateOrderStatus} from '../api/index';
 
 import {Status} from '../../../shared/orders';
-import '../../css/pages/MerchantRoutes.scss'
+import '../../css/pages/MerchantRoutes.css'
 
 export default function MerchantRoutes(props) {
   return(

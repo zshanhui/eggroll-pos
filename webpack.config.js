@@ -19,7 +19,6 @@ const moduleRules = {
           }
         },
         'css-loader',
-        'sass-loader',
       ]
     },
     {

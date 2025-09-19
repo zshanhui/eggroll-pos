@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const request = require("request");
 
 const Orders = require('../models/orders');
 const Customers = require('../models/customers');
@@ -15,6 +14,8 @@ const {Status} = require('../../shared/orders');
 
 // Helpers
 const {getTimeUntilPickup} = require('../../shared/orders');
+const axios = require("axios");
+const { ZOMATO_API_KEY, ZOMATO_API_URL } = require("../constants");
 
 async function startOrderingChat(psid) {
   const profile = await GraphAPI.getUserProfile(psid);
@@ -85,27 +86,39 @@ async function getNearbyShopsFromZomato(lat, lon) {
   }
 }
 
-function requestNearbyZomato(lat, lon) {
-  return new Promise(function (resolve, reject) {
-    request({
+async function zomatoAPICall(endpoint, params) {
+  try {
+    const response = await axios.get(`${ZOMATO_API_URL}/${endpoint}`, {
       headers: {
-        'user-key': '118f64801e68a449194b12893964eba7'
+        "user-key": ZOMATO_API_KEY,
+        Accept: "application/json",
       },
-      uri: `https://developers.zomato.com/api/v2.1/geocode`,
-      qs: {
-        lat: lat,
-        lon: lon,
-      },
-      method: "GET"
-    }, function (error, res, body) {
-      if (!error && res.statusCode == 200) {
-        resolve(JSON.parse(body));
-      } else {
-        reject(error);
-      }
+      params: params,
     });
-  });
+    return response.data;
+  } catch (error) {
+    console.error("Zomato API Error:", error.response.data);
+    throw error;
+  }
 }
+
+async function requestNearbyZomato(lat, lon) {
+  const data = await zomatoAPICall("geocode", { lat, lon });
+  const nearbyRestaurants = data.nearby_restaurants.map((r) => {
+    return {
+      id: r.restaurant.id,
+      name: r.restaurant.name,
+      url: r.restaurant.url,
+      location: r.restaurant.location,
+      photos: r.restaurant.photos,
+    };
+  });
+  return nearbyRestaurants;
+}
+
+module.exports = {
+  requestNearbyZomato,
+};
 
 async function getMerchantMenu(merchantId) {
   const menu = await MenuItems.getByMerchantId(merchantId);

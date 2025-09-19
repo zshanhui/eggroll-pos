@@ -2,7 +2,6 @@ require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
-const bodyParser = require('body-parser');
 const multer = require('multer')
 const upload = multer();
 const cookieParser = require('cookie-parser');
@@ -26,7 +25,6 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(bodyParser.json())
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use('/dist', express.static(path.join(__dirname, '../../dist')));

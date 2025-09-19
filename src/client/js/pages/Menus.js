@@ -7,7 +7,7 @@ import {
   completeAddingLineItems,
 } from "../api/index";
 
-import "../../css/pages/Menus.scss";
+import "../../css/pages/Menus.css";
 import appleImage from "../../assets/images/apple-placeholder.jpg";
 export default class Menu extends React.Component {
   constructor(props) {

@@ -1,0 +1,16 @@
+.Order__meta-list {
+  list-style: none;
+  background: #ddd;
+  padding: 0.5rem;
+}
+
+.Order__meta-list li {
+  font-size: 14px;
+  display: block;
+  color: #404040;
+}
+
+.Order__meta-list span {
+  font-weight: 200;
+  margin-left: 1rem;
+}
