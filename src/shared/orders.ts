@@ -1,33 +1,45 @@
-const { addMinutes, parseJSON } = require('date-fns');
+import { addMinutes, parseJSON } from "date-fns";
 
-const Status = {
+export type OrderStatus =
+  | "started"
+  | "confirmed"
+  | "accepted"
+  | "declined"
+  | "preparing"
+  | "ready"
+  | "on_delivery";
+
+export const Status = {
   // chat started by Customer
-  STARTED: 'started',
+  STARTED: "started" as const,
   // confirmed by Customer
-  CONFIRMED: 'confirmed',
+  CONFIRMED: "confirmed" as const,
   // accepted by Merchant, before starting to prepare
-  ACCEPTED: 'accepted',
+  ACCEPTED: "accepted" as const,
   // declined by Merchant
-  DECLINED: 'declined',
+  DECLINED: "declined" as const,
   // after accept, preparing order
-  PREPARING: 'preparing',
+  PREPARING: "preparing" as const,
   // ready for pickup
-  READY: 'ready',
+  READY: "ready" as const,
   // enroute for delivery; currently not implemented
-  DELIVERING: 'on_delivery',
-};
+  DELIVERING: "on_delivery" as const,
+} as const;
 
 // These order statuses should be fetched for the main view
 // Only show countdown timer on these when less than 10 minutes to ETA
-const ACTIVE_ORDER_STATUSES = [
+export const ACTIVE_ORDER_STATUSES = [
   Status.CONFIRMED,
   Status.ACCEPTED,
   Status.PREPARING,
 ];
 
-function getTimeUntilPickup(confirmedAt, pickupIn) {
+export function getTimeUntilPickup(
+  confirmedAt: string | null | undefined,
+  pickupIn: number | null | undefined
+): Date | undefined {
   if (!pickupIn || !confirmedAt) {
-    return;
+    return undefined;
   }
 
   console.log(confirmedAt);
@@ -39,9 +51,4 @@ function getTimeUntilPickup(confirmedAt, pickupIn) {
   // console.log('t2 + pickupIn>> ', n2);
 
   return t1;
-}
-
-module.exports = {
-  Status,
-  getTimeUntilPickup,
 }

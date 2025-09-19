@@ -5,14 +5,20 @@ import {createBrowserHistory} from 'history';
 import Lazy from './components/Lazy';
 import HomeLanding from './pages/HomeLanding';
 
+// Global types are defined in src/types/global.d.ts
+
 const history = createBrowserHistory();
 
+interface PageProps {
+  [key: string]: any;
+}
+
 const Pages = {
-  AboutPage: (props) => <Lazy {...props} module={import('./pages/About')} />,
-  Receipts: (props) => <Lazy {...props} module={import('./pages/Receipts')} />,
-  MerchantRoutes: (props) => <Lazy {...props} module={import('./pages/MerchantRoutes')} />,
-  CustomerRoutes: (props) => <Lazy {...props} module={import('./pages/CustomerRoutes')} />,
-  Menus: (props) => <Lazy {...props} module={import('./pages/Menus')} />,
+  AboutPage: (props: PageProps) => <Lazy {...props} module={import('./pages/About')} />,
+  Receipts: (props: PageProps) => <Lazy {...props} module={import('./pages/Receipts')} />,
+  MerchantRoutes: (props: PageProps) => <Lazy {...props} module={import('./pages/MerchantRoutes')} />,
+  CustomerRoutes: (props: PageProps) => <Lazy {...props} module={import('./pages/CustomerRoutes')} />,
+  Menus: (props: PageProps) => <Lazy {...props} module={import('./pages/Menus')} />,
 }
 
 const SERVER_DATA = window.__VARS__ ? window.__VARS__ : null;
